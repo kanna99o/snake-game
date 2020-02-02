@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 import Snake from './Snake';
 
+const initState = {
+  direction: 'RIGHT',
+  speed: 100,
+  snakeDots:[
+    [0, 0],
+    [2, 0],
+    [4, 0]
+  ]
+};
+
 export default class App extends Component {
 
   constructor(){
     super();
-    this.state = {
-      direction: 'RIGHT',
-      speed: 100,
-      snakeDots:[
-        [2, 0],
-        [4, 0],
-        [6, 0]
-      ]
-    };
+    this.state = initState;
 
     this.makeMove = this.makeMove.bind(this);
     this.changeDirection = this.changeDirection.bind(this);
@@ -23,6 +25,10 @@ export default class App extends Component {
   componentDidMount() {
     window.setInterval(this.makeMove, this.state.speed);
     document.addEventListener('keydown', this.changeDirection);
+  }
+
+  componentDidUpdate(){
+    this.checkBorders();
   }
 
   changeDirection(e){
@@ -44,6 +50,18 @@ export default class App extends Component {
       this.setState({...this.state, direction});
     }
 
+  }
+
+  checkBorders(){
+    const head = this.state.snakeDots[this.state.snakeDots.length - 1];
+    if(head[0] < 0 || head[0] >= 100 || head[1] < 0 || head[1] >= 100){
+      this.onGameOver();
+    }
+  }
+
+  onGameOver(){
+    window.alert(`Game Over. The length of your snake is ${this.state.snakeDots.length}`);
+    this.setState({...initState});
   }
 
   makeMove(){
