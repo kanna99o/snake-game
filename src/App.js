@@ -4,21 +4,10 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="game-board">
+      <div className="snake-dot" style={{ left: 0, top: 0 }} />
+      <div className="snake-dot" style={{ left: '2%', top: 0 }} />
+      <div className="snake-dot" style={{ left: '4%', top: 0 }} />
     </div>
   );
 }
