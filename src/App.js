@@ -1,15 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Snake from './Snake';
 
-function App() {
-  return (
-    <div className="game-board">
-      <div className="snake-dot" style={{ left: 0, top: 0 }} />
-      <div className="snake-dot" style={{ left: '2%', top: 0 }} />
-      <div className="snake-dot" style={{ left: '4%', top: 0 }} />
-    </div>
-  );
+export default class App extends Component {
+
+  constructor(){
+    super();
+    this.state = {
+      snakeDots:[
+        [2, 0],
+        [4, 0],
+        [6, 0]
+      ]
+    };
+  }
+
+  render() {
+    return (
+      <div className="game-board">
+        <Snake snakeDots={this.state.snakeDots} />
+      </div>
+    )
+  }
 }
-
-export default App;
