@@ -8,7 +8,7 @@ export default class App extends Component {
     super();
     this.state = {
       direction: 'RIGHT',
-      speed: 500,
+      speed: 100,
       snakeDots:[
         [2, 0],
         [4, 0],
@@ -31,16 +31,18 @@ export default class App extends Component {
     let direction = null;
     switch(event.key){
       case 'ArrowUp':
-        direction = 'UP'; break;
+        if(this.state.direction != 'DOWN') direction = 'UP' ; break;
       case 'ArrowDown':
-        direction = 'DOWN'; break;
+        if(this.state.direction != 'UP') direction = 'DOWN'; break;
       case 'ArrowLeft':
-        direction = 'LEFT'; break;
+        if(this.state.direction != 'RIGHT') direction = 'LEFT'; break;
       default:
-        direction = 'RIGHT'; break;
+        if(this.state.direction != 'LEFT') direction = 'RIGHT'; break;
     }
 
-    this.setState({...this.state, direction});
+    if(direction != null){
+      this.setState({...this.state, direction});
+    }
 
   }
 
