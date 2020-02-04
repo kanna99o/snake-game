@@ -8,5 +8,7 @@ const Snake = ({ snakeDots }) => {
     </React.Fragment>)
 }
 
-export default Snake;
+const SnakeFood = ({ foodDot }) => <div className="snake-food" style={{ left: `${foodDot[0]}%`, top: `${foodDot[1]}%` }} />
+
+export { Snake, SnakeFood };
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Snake from './Snake';
+import { Snake, SnakeFood } from './Snake.jsx';
+import { getRandomFood } from './utils';
 
 const initState = {
   direction: 'RIGHT',
@@ -9,7 +10,12 @@ const initState = {
     [0, 0],
     [2, 0],
     [4, 0]
-  ]
+  ],
+  food: getRandomFood([
+    [0, 0],
+    [2, 0],
+    [4, 0]
+  ]),
 };
 
 export default class App extends Component {
@@ -20,6 +26,7 @@ export default class App extends Component {
 
     this.makeMove = this.makeMove.bind(this);
     this.changeDirection = this.changeDirection.bind(this);
+    this.checkFood = this.checkFood.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +36,7 @@ export default class App extends Component {
 
   componentDidUpdate(){
     this.checkBorders();
+    this.checkFood();
   }
 
   changeDirection(e){
@@ -37,13 +45,13 @@ export default class App extends Component {
     let direction = null;
     switch(event.key){
       case 'ArrowUp':
-        if(this.state.direction != 'DOWN') direction = 'UP' ; break;
+        if(this.state.direction !== 'DOWN') direction = 'UP' ; break;
       case 'ArrowDown':
-        if(this.state.direction != 'UP') direction = 'DOWN'; break;
+        if(this.state.direction !== 'UP') direction = 'DOWN'; break;
       case 'ArrowLeft':
-        if(this.state.direction != 'RIGHT') direction = 'LEFT'; break;
+        if(this.state.direction !== 'RIGHT') direction = 'LEFT'; break;
       default:
-        if(this.state.direction != 'LEFT') direction = 'RIGHT'; break;
+        if(this.state.direction !== 'LEFT') direction = 'RIGHT'; break;
     }
 
     if(direction != null){
@@ -85,9 +93,21 @@ export default class App extends Component {
     this.setState({...this.state, snakeDots});
   }
 
+  checkFood(){
+    const snakeDots = this.state.snakeDots;
+    const head = snakeDots[this.state.snakeDots.length - 1];
+    const food = this.state.food;
+    
+    if(head[0] === food[0] && head[1] === food[1]){
+      snakeDots.unshift([]);
+      this.setState({...this.state, snakeDots, food: getRandomFood(snakeDots)});
+    }
+  }
+
   render() {
     return (
       <div className="game-board">
+        <SnakeFood foodDot={this.state.food} />
         <Snake snakeDots={this.state.snakeDots} />
       </div>
     )
